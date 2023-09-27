@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -57,6 +58,40 @@ func startServer(server *Server) {
 	}
 }
 
-func (c *Server) AskForCourse(ctx context.Context, in *course.CourseInfoRequest) (*course.CourseAskClient, error) {
-	return nil, nil
+func (c *Server) AskForCourse(ctx context.Context, in *course.CourseInfoRequest) (*course.CourseInfoResponse, error) {
+	// Retrieve the requested course from the mock data
+	courseData, ok := mockCourses[in.CourseId]
+
+	log.Printf("Client with ID %d asked for info about course with ID %d", in.ClientId, in.CourseId)
+
+	if !ok {
+		return nil, fmt.Errorf("Course with ID %d not found", in.CourseId)
+	}
+
+	return courseData, nil
+}
+
+// Defining some mock courses to choose from
+var mockCourses = map[int64]*course.CourseInfoResponse{
+	1: {
+		Id:          1,
+		Name:        "Course 1",
+		Description: "Description for Course 1",
+		Teachers:    []string{"Teacher 1", "Teacher 2"},
+		Workload:    5,
+	},
+	2: {
+		Id:          2,
+		Name:        "Course 2",
+		Description: "Description for Course 2",
+		Teachers:    []string{"Teacher 3", "Teacher 4"},
+		Workload:    7,
+	},
+	3: {
+		Id:          3,
+		Name:        "Course 3",
+		Description: "Description for Course 3",
+		Teachers:    []string{"Teacher 5", "Teacher 6"},
+		Workload:    6,
+	},
 }
