@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package course;
+
+option go_package = "grpc/course";
+
+message CourseInfoRequest {
+    int64 courseId = 1;
+}
+
+message CourseInfoResponse {
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+    repeated string teachers = 4;
+    int64 workload = 5;
+}
+
+service CourseAsk {
+    rpc AskForCourse(CourseInfoRequest) returns (CourseInfoResponse);
+}

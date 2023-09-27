@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package teacher;
+
+option go_package = "grpc/teacher";
+
+service teacherService {
+    
+}
